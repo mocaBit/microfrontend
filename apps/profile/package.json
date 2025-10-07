@@ -1,0 +1,20 @@
+{
+  "name": "profile",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "rsbuild dev",
+    "build": "rsbuild build",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@module-federation/rsbuild-plugin": "^0.19.1",
+    "@rsbuild/core": "^1.5.13",
+    "@rsbuild/plugin-react": "^1.4.1"
+  }
+}
