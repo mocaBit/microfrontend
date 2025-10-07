@@ -24,6 +24,10 @@ export default defineConfig({
       experiments: {
         outputModule: true,
       },
+      externals: {
+        react: 'react',
+        'react-dom': 'react-dom',
+      },
     },
   },
 });
