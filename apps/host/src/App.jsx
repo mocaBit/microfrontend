@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from 'react';
-import { Button, Badge } from '@microfrontend-app/shared-ui';
+import { Button, Badge, useCart } from '@microfrontend-app/shared-ui';
 
 const ProductsApp = lazy(() => import('products/ProductsApp'));
 const CartApp = lazy(() => import('cart/CartApp'));
@@ -7,6 +7,8 @@ const ProfileApp = lazy(() => import('profile/ProfileApp'));
 
 function App() {
   const [currentView, setCurrentView] = React.useState('products');
+  const cartContext = useCart();
+  const { totalItems } = cartContext;
 
   return (
     <div style={{ fontFamily: 'Arial, sans-serif', minHeight: '100vh', background: '#f5f5f5' }}>
@@ -34,7 +36,7 @@ function App() {
             variant={currentView === 'cart' ? 'primary' : 'outline'}
             onClick={() => setCurrentView('cart')}
           >
-            Cart
+            Cart {totalItems > 0 && <Badge variant="danger" size="small" style={{ marginLeft: '8px' }}>{totalItems}</Badge>}
           </Button>
           <Button
             variant={currentView === 'profile' ? 'primary' : 'outline'}
@@ -47,8 +49,8 @@ function App() {
 
       <main style={{ padding: '0 20px', maxWidth: '1200px', margin: '0 auto' }}>
         <Suspense fallback={<div style={{ textAlign: 'center', padding: '40px' }}>Loading...</div>}>
-          {currentView === 'products' && <ProductsApp />}
-          {currentView === 'cart' && <CartApp />}
+          {currentView === 'products' && <ProductsApp cartContext={cartContext} />}
+          {currentView === 'cart' && <CartApp cartContext={cartContext} />}
           {currentView === 'profile' && <ProfileApp />}
         </Suspense>
       </main>

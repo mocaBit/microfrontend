@@ -29,10 +29,12 @@ export default defineConfig({
         react: {
           singleton: true,
           requiredVersion: '^18.2.0',
+          eager: false,
         },
         'react-dom': {
           singleton: true,
           requiredVersion: '^18.2.0',
+          eager: false,
         },
         '@microfrontend-app/shared-ui': {
           singleton: true,

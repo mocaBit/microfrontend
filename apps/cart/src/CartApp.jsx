@@ -1,29 +1,13 @@
-import { useState } from 'react';
 import { Card, Button, Badge } from '@microfrontend-app/shared-ui';
 
-const initialCartItems = [
-  { id: 1, name: 'Laptop', price: 999, quantity: 1, image: '💻' },
-  { id: 2, name: 'Phone', price: 699, quantity: 2, image: '📱' },
-];
-
-function CartApp() {
-  const [cartItems, setCartItems] = useState(initialCartItems);
-
-  const updateQuantity = (id, delta) => {
-    setCartItems(items =>
-      items.map(item =>
-        item.id === id
-          ? { ...item, quantity: Math.max(0, item.quantity + delta) }
-          : item
-      ).filter(item => item.quantity > 0)
-    );
-  };
-
-  const removeItem = (id) => {
-    setCartItems(items => items.filter(item => item.id !== id));
-  };
-
-  const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+function CartApp({ cartContext }) {
+  const {
+    cartItems = [],
+    updateQuantity = () => {},
+    removeFromCart = () => {},
+    totalPrice = 0,
+    clearCart = () => {},
+  } = cartContext || {};
 
   return (
     <div>
@@ -79,7 +63,7 @@ function CartApp() {
                     <Button
                       variant="secondary"
                       size="small"
-                      onClick={() => removeItem(item.id)}
+                      onClick={() => removeFromCart(item.id)}
                     >
                       Remove
                     </Button>
@@ -103,16 +87,29 @@ function CartApp() {
                 fontWeight: 'bold',
                 color: '#28a745'
               }}>
-                ${total.toFixed(2)}
+                ${totalPrice.toFixed(2)}
               </p>
             </div>
-            <Button
-              variant="primary"
-              size="large"
-              onClick={() => alert('Proceeding to checkout...')}
-            >
-              Checkout
-            </Button>
+            <div style={{ display: 'flex', gap: '12px' }}>
+              <Button
+                variant="primary"
+                size="large"
+                onClick={() => alert('Proceeding to checkout...')}
+              >
+                Checkout
+              </Button>
+              <Button
+                variant="secondary"
+                size="large"
+                onClick={() => {
+                  if (confirm('Are you sure you want to clear the cart?')) {
+                    clearCart();
+                  }
+                }}
+              >
+                Clear Cart
+              </Button>
+            </div>
           </Card>
         </>
       )}

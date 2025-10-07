@@ -9,12 +9,23 @@ const products = [
   { id: 6, name: 'Camera', price: 799, image: '📷', stock: 'in-stock' },
 ];
 
-function ProductsApp() {
+function ProductsApp({ cartContext }) {
+  const addToCart = cartContext?.addToCart || (() => console.log('Cart not available'));
+
   const handleAddToCart = (product) => {
     if (product.stock === 'out-of-stock') {
       alert(`${product.name} is currently out of stock!`);
     } else {
-      alert(`Added ${product.name} to cart!`);
+      addToCart(product);
+      // Show success feedback
+      const message = document.createElement('div');
+      message.textContent = `✓ ${product.name} added to cart!`;
+      message.style.cssText = 'position: fixed; top: 20px; right: 20px; background: #28a745; color: white; padding: 16px 24px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 9999; animation: slideIn 0.3s ease;';
+      document.body.appendChild(message);
+      setTimeout(() => {
+        message.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => document.body.removeChild(message), 300);
+      }, 2000);
     }
   };
 
