@@ -13,6 +13,39 @@ The application consists of:
 
 Each microfrontend can run independently or be consumed from the host via Module Federation 2.0.
 
+## Demo
+
+### Navigation Between Microfrontends
+
+The application provides seamless navigation between different microfrontends, each running independently but integrated through the host application.
+
+![Navigation Demo](docs/navigation.gif)
+
+Each microfrontend (Products, Cart, Profile) has its own UI and functionality while sharing the same layout and state management.
+
+### Adding Products to Cart
+
+Products can be added to the global cart state from the Products microfrontend. The cart state is managed by the host and shared across all microfrontends in real-time.
+
+![Cart Demo](docs/cart.gif)
+
+This demonstrates:
+- Adding products to the cart from the Products microfrontend
+- Real-time cart count update in the header
+- Navigating to the Cart microfrontend to view added products
+- Managing quantities and removing items
+
+### Checkout and Profile Management
+
+After adding products to the cart, users can proceed to checkout and then navigate to the Profile microfrontend to manage their user data.
+
+![Profile Demo](docs/profile.gif)
+
+This demonstrates:
+- Completing the checkout process from the Cart microfrontend
+- Navigating to the Profile microfrontend
+- Updating user information independently
+
 ## Quick Start
 
 ### Install dependencies
