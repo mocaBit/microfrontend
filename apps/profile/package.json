@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "@microfrontend-app/shared-ui": "*"
   },
   "devDependencies": {
     "@module-federation/rsbuild-plugin": "^0.19.1",

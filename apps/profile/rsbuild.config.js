@@ -34,6 +34,9 @@ export default defineConfig({
           singleton: true,
           requiredVersion: '^18.2.0',
         },
+        '@microfrontend-app/shared-ui': {
+          singleton: true,
+        },
       },
     }),
   ],

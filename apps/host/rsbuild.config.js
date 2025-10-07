@@ -38,6 +38,10 @@ export default defineConfig({
           requiredVersion: '^18.2.0',
           eager: true,
         },
+        '@microfrontend-app/shared-ui': {
+          singleton: true,
+          eager: true,
+        },
       },
     }),
   ],
