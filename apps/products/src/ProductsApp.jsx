@@ -1,62 +1,65 @@
+import { Card, Button, Badge } from '@microfrontend-app/shared-ui';
+
 const products = [
-  { id: 1, name: 'Laptop', price: 999, image: '💻' },
-  { id: 2, name: 'Phone', price: 699, image: '📱' },
-  { id: 3, name: 'Headphones', price: 199, image: '🎧' },
-  { id: 4, name: 'Watch', price: 299, image: '⌚' },
-  { id: 5, name: 'Tablet', price: 499, image: '📱' },
-  { id: 6, name: 'Camera', price: 799, image: '📷' },
+  { id: 1, name: 'Laptop', price: 999, image: '💻', stock: 'in-stock' },
+  { id: 2, name: 'Phone', price: 699, image: '📱', stock: 'in-stock' },
+  { id: 3, name: 'Headphones', price: 199, image: '🎧', stock: 'low-stock' },
+  { id: 4, name: 'Watch', price: 299, image: '⌚', stock: 'in-stock' },
+  { id: 5, name: 'Tablet', price: 499, image: '📱', stock: 'out-of-stock' },
+  { id: 6, name: 'Camera', price: 799, image: '📷', stock: 'in-stock' },
 ];
 
 function ProductsApp() {
   const handleAddToCart = (product) => {
-    alert(`Added ${product.name} to cart!`);
+    if (product.stock === 'out-of-stock') {
+      alert(`${product.name} is currently out of stock!`);
+    } else {
+      alert(`Added ${product.name} to cart!`);
+    }
+  };
+
+  const getStockBadge = (stock) => {
+    if (stock === 'in-stock') return <Badge variant="success">In Stock</Badge>;
+    if (stock === 'low-stock') return <Badge variant="warning">Low Stock</Badge>;
+    return <Badge variant="danger">Out of Stock</Badge>;
   };
 
   return (
     <div>
-      <h2>Products Catalog</h2>
-      <p style={{ color: '#666', marginBottom: '20px' }}>
-        This is a microfrontend running on port 3001
-      </p>
+      <div style={{ marginBottom: '20px' }}>
+        <h2 style={{ margin: 0 }}>Products Catalog</h2>
+        <p style={{ color: '#666', marginTop: '8px' }}>
+          This is a microfrontend running on port 3001
+        </p>
+      </div>
       <div style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
         gap: '20px'
       }}>
         {products.map(product => (
-          <div key={product.id} style={{
-            border: '1px solid #ddd',
-            borderRadius: '8px',
-            padding: '20px',
-            textAlign: 'center',
-            transition: 'transform 0.2s',
-            cursor: 'pointer'
-          }}
-          onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
-          onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+          <Card
+            key={product.id}
+            title={product.name}
+            subtitle={`$${product.price}`}
+            padding="16px"
           >
-            <div style={{ fontSize: '48px', marginBottom: '10px' }}>
-              {product.image}
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ fontSize: '64px', margin: '20px 0' }}>
+                {product.image}
+              </div>
+              <div style={{ marginBottom: '12px' }}>
+                {getStockBadge(product.stock)}
+              </div>
+              <Button
+                variant="primary"
+                onClick={() => handleAddToCart(product)}
+                disabled={product.stock === 'out-of-stock'}
+              >
+                Add to Cart
+              </Button>
             </div>
-            <h3>{product.name}</h3>
-            <p style={{ fontSize: '20px', color: '#2ecc71', fontWeight: 'bold' }}>
-              ${product.price}
-            </p>
-            <button
-              onClick={() => handleAddToCart(product)}
-              style={{
-                padding: '10px 20px',
-                background: '#3498db',
-                color: 'white',
-                border: 'none',
-                borderRadius: '4px',
-                cursor: 'pointer',
-                fontSize: '14px'
-              }}
-            >
-              Add to Cart
-            </button>
-          </div>
+          </Card>
         ))}
       </div>
     </div>

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Card, Button, Badge } from '@microfrontend-app/shared-ui';
 
 function ProfileApp() {
   const [user, setUser] = useState({
@@ -7,7 +8,8 @@ function ProfileApp() {
     avatar: '👤',
     memberSince: '2024',
     orders: 15,
-    totalSpent: 3499
+    totalSpent: 3499,
+    status: 'premium'
   });
 
   const [isEditing, setIsEditing] = useState(false);
@@ -27,47 +29,47 @@ function ProfileApp() {
 
   return (
     <div>
-      <h2>User Profile</h2>
-      <p style={{ color: '#666', marginBottom: '20px' }}>
-        This is a microfrontend running on port 3003
-      </p>
+      <div style={{ marginBottom: '20px' }}>
+        <h2 style={{ margin: 0 }}>User Profile</h2>
+        <p style={{ color: '#666', marginTop: '8px' }}>
+          This is a microfrontend running on port 3003
+        </p>
+      </div>
 
       <div style={{
-        maxWidth: '600px',
+        maxWidth: '700px',
         margin: '0 auto'
       }}>
-        <div style={{
-          background: 'white',
-          border: '1px solid #ddd',
-          borderRadius: '8px',
-          padding: '30px',
-          marginBottom: '20px'
-        }}>
+        <Card title="Profile Information" padding="30px">
           <div style={{
             textAlign: 'center',
-            marginBottom: '20px'
+            marginBottom: '24px'
           }}>
-            <div style={{ fontSize: '80px', marginBottom: '10px' }}>
+            <div style={{ fontSize: '80px', marginBottom: '16px' }}>
               {user.avatar}
             </div>
+            {user.status === 'premium' && (
+              <Badge variant="warning" size="large">Premium Member</Badge>
+            )}
             {!isEditing ? (
-              <>
-                <h3 style={{ margin: '10px 0' }}>{user.name}</h3>
-                <p style={{ color: '#666', margin: '5px 0' }}>{user.email}</p>
-              </>
+              <div style={{ marginTop: '16px' }}>
+                <h3 style={{ margin: '8px 0' }}>{user.name}</h3>
+                <p style={{ color: '#666', margin: '4px 0' }}>{user.email}</p>
+              </div>
             ) : (
-              <div style={{ marginTop: '20px' }}>
+              <div style={{ marginTop: '20px', textAlign: 'left' }}>
                 <input
                   type="text"
                   value={editedName}
                   onChange={(e) => setEditedName(e.target.value)}
                   style={{
                     width: '100%',
-                    padding: '10px',
-                    marginBottom: '10px',
-                    border: '1px solid #ddd',
+                    padding: '12px',
+                    marginBottom: '12px',
+                    border: '2px solid #ddd',
                     borderRadius: '4px',
-                    fontSize: '16px'
+                    fontSize: '16px',
+                    boxSizing: 'border-box'
                   }}
                   placeholder="Name"
                 />
@@ -77,10 +79,11 @@ function ProfileApp() {
                   onChange={(e) => setEditedEmail(e.target.value)}
                   style={{
                     width: '100%',
-                    padding: '10px',
-                    border: '1px solid #ddd',
+                    padding: '12px',
+                    border: '2px solid #ddd',
                     borderRadius: '4px',
-                    fontSize: '16px'
+                    fontSize: '16px',
+                    boxSizing: 'border-box'
                   }}
                   placeholder="Email"
                 />
@@ -89,107 +92,61 @@ function ProfileApp() {
           </div>
 
           {!isEditing ? (
-            <button
+            <Button
+              variant="primary"
+              size="large"
               onClick={() => setIsEditing(true)}
-              style={{
-                width: '100%',
-                padding: '12px',
-                background: '#3498db',
-                color: 'white',
-                border: 'none',
-                borderRadius: '4px',
-                cursor: 'pointer',
-                fontSize: '16px'
-              }}
             >
               Edit Profile
-            </button>
+            </Button>
           ) : (
-            <div style={{ display: 'flex', gap: '10px' }}>
-              <button
+            <div style={{ display: 'flex', gap: '12px' }}>
+              <Button
+                variant="success"
+                size="large"
                 onClick={handleSave}
-                style={{
-                  flex: 1,
-                  padding: '12px',
-                  background: '#2ecc71',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '4px',
-                  cursor: 'pointer',
-                  fontSize: '16px'
-                }}
               >
-                Save
-              </button>
-              <button
+                Save Changes
+              </Button>
+              <Button
+                variant="secondary"
+                size="large"
                 onClick={handleCancel}
-                style={{
-                  flex: 1,
-                  padding: '12px',
-                  background: '#95a5a6',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '4px',
-                  cursor: 'pointer',
-                  fontSize: '16px'
-                }}
               >
                 Cancel
-              </button>
+              </Button>
             </div>
           )}
-        </div>
+        </Card>
 
-        <div style={{
-          background: 'white',
-          border: '1px solid #ddd',
-          borderRadius: '8px',
-          padding: '20px'
-        }}>
-          <h3 style={{ marginTop: 0 }}>Account Statistics</h3>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: '15px',
-            textAlign: 'center'
-          }}>
+        <div style={{ marginTop: '20px' }}>
+          <Card title="Account Statistics" padding="24px">
             <div style={{
-              padding: '15px',
-              background: '#f8f9fa',
-              borderRadius: '8px'
+              display: 'grid',
+              gridTemplateColumns: 'repeat(3, 1fr)',
+              gap: '16px',
+              textAlign: 'center'
             }}>
-              <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#3498db' }}>
-                {user.memberSince}
+              <div>
+                <div style={{ fontSize: '32px', fontWeight: 'bold', color: '#007bff', marginBottom: '8px' }}>
+                  {user.memberSince}
+                </div>
+                <Badge variant="info">Member Since</Badge>
               </div>
-              <div style={{ fontSize: '12px', color: '#666', marginTop: '5px' }}>
-                Member Since
+              <div>
+                <div style={{ fontSize: '32px', fontWeight: 'bold', color: '#28a745', marginBottom: '8px' }}>
+                  {user.orders}
+                </div>
+                <Badge variant="success">Total Orders</Badge>
+              </div>
+              <div>
+                <div style={{ fontSize: '32px', fontWeight: 'bold', color: '#dc3545', marginBottom: '8px' }}>
+                  ${user.totalSpent}
+                </div>
+                <Badge variant="danger">Total Spent</Badge>
               </div>
             </div>
-            <div style={{
-              padding: '15px',
-              background: '#f8f9fa',
-              borderRadius: '8px'
-            }}>
-              <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#2ecc71' }}>
-                {user.orders}
-              </div>
-              <div style={{ fontSize: '12px', color: '#666', marginTop: '5px' }}>
-                Total Orders
-              </div>
-            </div>
-            <div style={{
-              padding: '15px',
-              background: '#f8f9fa',
-              borderRadius: '8px'
-            }}>
-              <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#e74c3c' }}>
-                ${user.totalSpent}
-              </div>
-              <div style={{ fontSize: '12px', color: '#666', marginTop: '5px' }}>
-                Total Spent
-              </div>
-            </div>
-          </div>
+          </Card>
         </div>
       </div>
     </div>
