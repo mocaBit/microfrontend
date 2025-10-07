@@ -4,16 +4,16 @@ import { pluginModuleFederation } from '@module-federation/rsbuild-plugin';
 
 export default defineConfig({
   server: {
-    port: 3000,
+    port: 3001,
     headers: {
       'Access-Control-Allow-Origin': '*',
     },
   },
   dev: {
-    assetPrefix: 'http://localhost:3000',
+    assetPrefix: 'http://localhost:3001',
   },
   output: {
-    assetPrefix: 'http://localhost:3000',
+    assetPrefix: 'http://localhost:3001',
   },
   html: {
     template: './public/index.html',
@@ -21,20 +21,18 @@ export default defineConfig({
   plugins: [
     pluginReact(),
     pluginModuleFederation({
-      name: 'host',
-      remotes: {
-        products: 'products@http://localhost:3001/mf-manifest.json',
+      name: 'products',
+      exposes: {
+        './ProductsApp': './src/ProductsApp',
       },
       shared: {
         react: {
           singleton: true,
           requiredVersion: '^18.2.0',
-          eager: true,
         },
         'react-dom': {
           singleton: true,
           requiredVersion: '^18.2.0',
-          eager: true,
         },
       },
     }),
